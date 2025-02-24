@@ -1,4 +1,4 @@
-DB_ADDR= "postgres://root:mypassword@localhost:5432/clob?sslmode=disable"
+include .env
 MIGRATION_PATH = ./lib/db/migrations
 
 .PHONY: migrate-create
