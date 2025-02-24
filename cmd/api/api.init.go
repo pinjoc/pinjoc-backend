@@ -5,6 +5,8 @@ import (
 	"log"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/joho/godotenv"
+	"github.com/pinjoc/pinjoc-backend/internal/env"
 	"github.com/pinjoc/pinjoc-backend/internal/handler"
 	"github.com/pinjoc/pinjoc-backend/internal/service"
 	"github.com/pinjoc/pinjoc-backend/lib/config"
@@ -34,10 +36,15 @@ func InitRandom(svc service.Service) {
 }
 
 func InitConfig() config.Config {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	return config.Config{
 		AddrHttp: ":8080",
 		DbConfig: config.DBConfig{
-			Addr:         "postgres://root:mypassword@localhost:5432/clob?sslmode=disable",
+			Addr:         env.GetString("DB_ADDR", ""),
 			MaxOpenConns: 5,
 			MaxIdleConns: 5,
 			MaxIdleTime:  "10m",
