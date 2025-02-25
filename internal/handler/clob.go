@@ -34,6 +34,12 @@ func (h *ClobHandler) GetCLOB(ctx *fiber.Ctx) error {
 		})
 	}
 
+	if res == nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "No available CLOB",
+		})
+	}
+
 	return ctx.Status(fiber.StatusOK).JSON(res)
 }
 
@@ -67,6 +73,12 @@ func (h *ClobHandler) GetBestRate(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),
+		})
+	}
+
+	if res == 0 {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"best_rate": "No available rate",
 		})
 	}
 
