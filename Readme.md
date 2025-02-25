@@ -107,8 +107,11 @@ no-parameter
     "Volume24h": 200000
   },
 ]
+```
 
+```
 dazzling-enjoyment-production.up.railway.app/api/v1/token/token
+```
 
 ```
 {
@@ -119,6 +122,8 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/token
   "rate": 2.5
 }
 ```
+
+
 ```
 [
   {
@@ -129,7 +134,9 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/token
 ]
 ```
 
+```
 dazzling-enjoyment-production.up.railway.app/api/v1/token/best-price
+```
 
 ```
 {
