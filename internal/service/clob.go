@@ -9,39 +9,26 @@ import (
 	"github.com/pinjoc/pinjoc-backend/internal/storage/sqlc"
 )
 
-var MonthToStr = map[int32]string{
-	1:  "JAN",
-	2:  "FEB",
-	3:  "MAR",
-	4:  "APR",
-	5:  "MAY",
-	6:  "JUN",
-	7:  "JUL",
-	8:  "AUG",
-	9:  "SEP",
-	10: "OCT",
-	11: "NOV",
-	12: "DEC",
-}
-
 type ClobService struct {
 	q *sqlc.Queries
 }
 
 func (s *ClobService) GetCLOB(ctx context.Context, payload model.OrderBookPayload) ([]sqlc.GetCLOBRow, error) {
+	monthInt := MonthToInt[payload.Month]
 	return s.q.GetCLOB(ctx, sqlc.GetCLOBParams{
 		Address:   payload.CollateralAddress,
 		Address_2: payload.DebtTokenAddress,
-		Month:     payload.Month,
+		Month:     monthInt,
 		Year:      payload.Year,
 	})
 }
 
 func (s *ClobService) GetBestRate(ctx context.Context, payload model.OrderBookPayload) (float64, error) {
+	monthInt := MonthToInt[payload.Month]
 	return s.q.GetBestRate(ctx, sqlc.GetBestRateParams{
 		Address:   payload.CollateralAddress,
 		Address_2: payload.DebtTokenAddress,
-		Month:     payload.Month,
+		Month:     monthInt,
 		Year:      payload.Year,
 	})
 }

@@ -12,11 +12,20 @@ type Handler struct {
 		GetAvailableToken(ctx *fiber.Ctx) error
 		GetBestRate(ctx *fiber.Ctx) error
 	}
+
+	Tokenized interface {
+		GetToken(ctx *fiber.Ctx) error
+		GetAllToken(ctx *fiber.Ctx) error
+		GetBestPrice(ctx *fiber.Ctx) error
+	}
 }
 
 func NewHandler(db *pgxpool.Pool) Handler {
 	return Handler{
 		CLOB: &ClobHandler{
+			s: service.NewService(db),
+		},
+		Tokenized: &TokenizedHandler{
 			s: service.NewService(db),
 		},
 	}

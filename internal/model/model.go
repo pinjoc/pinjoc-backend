@@ -12,8 +12,16 @@ type (
 	OrderBookPayload struct {
 		CollateralAddress string `json:"collateral_address" validate:"required"`
 		DebtTokenAddress  string `json:"debt_token_address" validate:"required"`
-		Month             int32  `json:"month" validate:"required"`
+		Month             string `json:"month" validate:"required"`
 		Year              int32  `json:"year" validate:"required"`
+	}
+
+	TokenizedPayload struct {
+		QouteToken string  `json:"qoute_token" validate:"required"`
+		BaseToken  string  `json:"base_token" validate:"required"`
+		Month      string  `json:"month" validate:"required"`
+		Year       int32   `json:"year" validate:"required"`
+		Rate       float64 `json:"rate" validate:"required"`
 	}
 
 	UpdatePayload struct {
@@ -23,6 +31,10 @@ type (
 )
 
 func (p *OrderBookPayload) Validate() error {
+	return Validate.Struct(p)
+}
+
+func (p *TokenizedPayload) Validate() error {
 	return Validate.Struct(p)
 }
 

@@ -31,3 +31,15 @@ type Token struct {
 	Symbol  string
 	Address string
 }
+
+type Tokenized struct {
+	ID           int32
+	QuoteTokenID int32
+	BaseTokenID  int32
+	Price        int32
+	MaturityID   int32
+	Rate         pgtype.Numeric
+	Amount       int32
+	Volume       int32
+	OrderType    string
+}
