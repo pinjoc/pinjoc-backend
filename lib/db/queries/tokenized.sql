@@ -30,3 +30,17 @@ JOIN token q ON t.quote_token_id = q.id
 JOIN token b ON t.base_token_id = b.id
 JOIN maturities m ON t.maturity_id = m.id
 WHERE q.address = $1 AND b.address = $2 AND m.month = $3 AND m.year = $4 AND t.rate = $5;
+
+-- name: TokenAmount :exec
+UPDATE tokenized
+SET amount = amount + $1
+WHERE id = $2;
+
+-- name: TokenVolume :exec
+UPDATE tokenized
+SET volume = volume + $1
+WHERE id = $2;
+
+-- name: GetRandomToken :one
+SELECT id FROM tokenized
+ORDER BY RANDOM();

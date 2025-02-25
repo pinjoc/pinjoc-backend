@@ -54,6 +54,16 @@ func (s *ClobService) randomAmount() int32 {
 	return -int32(randAmount)
 }
 
+func (s *ClobService) randomVolume() int32 {
+	randVolume := rand.IntN(1001) + 5000
+	updateType := rand.IntN(2)
+	if updateType == 0 {
+		return int32(randVolume)
+	}
+
+	return -int32(randVolume)
+}
+
 func (s *ClobService) RandomUpdate(ctx context.Context) error {
 	id, err := s.q.GetRandomOrder(ctx)
 	if err != nil {
@@ -61,7 +71,7 @@ func (s *ClobService) RandomUpdate(ctx context.Context) error {
 	}
 
 	amount := s.randomAmount()
-	log.Println("Random update", id, amount)
+	log.Println("CLOB Available update", id, amount)
 	return s.UpdateAvailable(ctx, model.UpdatePayload{
 		ID:             id,
 		AvailableToken: amount,

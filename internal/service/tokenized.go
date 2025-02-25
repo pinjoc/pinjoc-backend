@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
+	"log"
+	"math/rand/v2"
 
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/pinjoc/pinjoc-backend/internal/model"
@@ -46,5 +48,67 @@ func (s *TokenizedService) GetBestPrice(ctx context.Context, payload model.Token
 		Month:     monthInt,
 		Year:      payload.Year,
 		Rate:      rate,
+	})
+}
+
+func (s *TokenizedService) UpdateAmount(ctx context.Context, payload model.UpdatePayload) error {
+	return s.q.TokenAmount(ctx, sqlc.TokenAmountParams{
+		Amount: payload.AvailableToken,
+		ID:     payload.ID,
+	})
+}
+
+func (s *TokenizedService) UpdateVolume(ctx context.Context, payload model.UpdatePayload) error {
+	return s.q.TokenVolume(ctx, sqlc.TokenVolumeParams{
+		Volume: payload.AvailableToken,
+		ID:     payload.ID,
+	})
+}
+
+func (s *TokenizedService) randomAmount() int32 {
+	randAmount := rand.IntN(51) + 50
+	updateType := rand.IntN(2)
+	if updateType == 0 {
+		return int32(randAmount)
+	}
+
+	return -int32(randAmount)
+}
+
+func (s *TokenizedService) randomVolume() int32 {
+	randAmount := rand.IntN(501) + 2000
+	updateType := rand.IntN(2)
+	if updateType == 0 {
+		return int32(randAmount)
+	}
+
+	return -int32(randAmount)
+}
+
+func (s *TokenizedService) RandomUpdate(ctx context.Context) error {
+	id, err := s.q.GetRandomToken(ctx)
+	if err != nil {
+		return err
+	}
+
+	amount := s.randomAmount()
+	log.Println("Token Amount update", id, amount)
+	return s.UpdateAmount(ctx, model.UpdatePayload{
+		ID:             id,
+		AvailableToken: amount,
+	})
+}
+
+func (s *TokenizedService) RandomVolume(ctx context.Context) error {
+	id, err := s.q.GetRandomToken(ctx)
+	if err != nil {
+		return err
+	}
+
+	volume := s.randomVolume()
+	log.Println("Token volume update", id, volume)
+	return s.UpdateVolume(ctx, model.UpdatePayload{
+		ID:             id,
+		AvailableToken: volume,
 	})
 }

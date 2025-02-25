@@ -20,12 +20,9 @@ func InitRandom(svc service.Service) {
 	// Jalankan setiap 30 detik
 	_, err := c.AddFunc("*/30 * * * * *", func() {
 		log.Println("Running RandomUpdate...")
-		err := svc.CLOB.RandomUpdate(context.Background())
-		if err != nil {
-			log.Printf("Error in RandomUpdate: %v\n", err)
-		} else {
-			log.Println("RandomUpdate completed successfully")
-		}
+		svc.CLOB.RandomUpdate(context.Background())
+		svc.Tokenized.RandomUpdate(context.Background())
+		svc.Tokenized.RandomVolume(context.Background())
 	})
 
 	if err != nil {

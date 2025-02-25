@@ -35,6 +35,8 @@ type Service struct {
 		GetAllToken(ctx context.Context) ([]sqlc.GetAllTokenRow, error)
 		GetToken(ctx context.Context, payload model.TokenizedPayload) ([]sqlc.GetTokenRow, error)
 		GetBestPrice(ctx context.Context, payload model.TokenizedPayload) (float64, error)
+		RandomUpdate(ctx context.Context) error
+		RandomVolume(ctx context.Context) error
 	}
 }
 

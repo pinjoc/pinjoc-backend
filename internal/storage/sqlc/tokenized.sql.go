@@ -101,6 +101,18 @@ func (q *Queries) GetBasePrice(ctx context.Context, arg GetBasePriceParams) (flo
 	return best_price, err
 }
 
+const getRandomToken = `-- name: GetRandomToken :one
+SELECT id FROM tokenized
+ORDER BY RANDOM()
+`
+
+func (q *Queries) GetRandomToken(ctx context.Context) (int32, error) {
+	row := q.db.QueryRow(ctx, getRandomToken)
+	var id int32
+	err := row.Scan(&id)
+	return id, err
+}
+
 const getToken = `-- name: GetToken :many
 SELECT price, amount, order_type
 FROM tokenized t
@@ -148,4 +160,36 @@ func (q *Queries) GetToken(ctx context.Context, arg GetTokenParams) ([]GetTokenR
 		return nil, err
 	}
 	return items, nil
+}
+
+const tokenAmount = `-- name: TokenAmount :exec
+UPDATE tokenized
+SET amount = amount + $1
+WHERE id = $2
+`
+
+type TokenAmountParams struct {
+	Amount int32
+	ID     int32
+}
+
+func (q *Queries) TokenAmount(ctx context.Context, arg TokenAmountParams) error {
+	_, err := q.db.Exec(ctx, tokenAmount, arg.Amount, arg.ID)
+	return err
+}
+
+const tokenVolume = `-- name: TokenVolume :exec
+UPDATE tokenized
+SET volume = volume + $1
+WHERE id = $2
+`
+
+type TokenVolumeParams struct {
+	Volume int32
+	ID     int32
+}
+
+func (q *Queries) TokenVolume(ctx context.Context, arg TokenVolumeParams) error {
+	_, err := q.db.Exec(ctx, tokenVolume, arg.Volume, arg.ID)
+	return err
 }
