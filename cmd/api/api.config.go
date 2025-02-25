@@ -34,7 +34,7 @@ func (a *Application) RegisterRoute() {
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		ExposeHeaders:    "Content-Length",
-		AllowCredentials: true,
+		AllowCredentials: false,
 	}))
 
 	apiRouter := a.app.Group("api/v1")
