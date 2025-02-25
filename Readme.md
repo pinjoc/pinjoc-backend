@@ -1,4 +1,6 @@
 ### endpoint
+
+### clob
 dazzling-enjoyment-production.up.railway.app/api/v1/clob/available-token
 
 ```
@@ -80,5 +82,67 @@ dazzling-enjoyment-production.up.railway.app/api/v1/clob/best-rate
 ```
 {
   "best_rate": "5.00"
+}
+```
+
+### token
+
+dazzling-enjoyment-production.up.railway.app/api/v1/token/available-token
+
+```
+no-parameter
+```
+
+```
+[
+  {
+    "QuoteTokenName": "Test Token dua",
+    "QuoteTokenSymbol": "TT2",
+    "QuoteTokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB42",
+    "BaseTokenName": "Test Token",
+    "BaseTokenSymbol": "TT",
+    "BaseTokenAddress": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
+    "PriceRange": "5000 ~ 7000",
+    "MaturityRange": "AUG 2025 ~ NOV 2025",
+    "Volume24h": 200000
+  },
+]
+
+dazzling-enjoyment-production.up.railway.app/api/v1/token/token
+
+```
+{
+  "qoute_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
+  "base_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB42",
+  "month": "MAY",
+  "year": 2025,
+  "rate": 2.5
+}
+```
+```
+[
+  {
+    "Price": 1000,
+    "Amount": 1000,
+    "OrderType": "SELL"
+  }
+]
+```
+
+dazzling-enjoyment-production.up.railway.app/api/v1/token/best-price
+
+```
+{
+  "qoute_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
+  "base_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB42",
+  "month": "MAY",
+  "year": 2025,
+  "rate": 2.5
+}
+```
+
+```
+{
+  "best_price": "1000.00"
 }
 ```
