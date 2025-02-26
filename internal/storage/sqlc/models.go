@@ -30,6 +30,7 @@ type Token struct {
 	Name    string
 	Symbol  string
 	Address string
+	Icon    pgtype.Text
 }
 
 type Tokenized struct {

@@ -1,0 +1,1 @@
+alter table token drop column icon;

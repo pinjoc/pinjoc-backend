@@ -16,9 +16,11 @@ SELECT
     d.name AS debt_token_name, 
     d.symbol AS debt_token_symbol, 
     d.address AS debt_token_address,
+    d.icon AS debt_token_icon,
     c.name AS collateral_token_name, 
     c.symbol AS collateral_token_symbol, 
     c.address AS collateral_address,
+    c.icon AS collateral_token_icon,
     CONCAT(MIN(m.month_name), ' ', MIN(m.year), ' ~ ', MAX(m.month_name), ' ', MAX(m.year)) AS maturity_range,
     CONCAT(MIN(o.rate), '% ~ ', MAX(o.rate), '%') AS rate_range,
     SUM(CASE WHEN o.order_type = 'LEND' THEN o.available_token ELSE 0 END) AS lending_vault,
@@ -34,9 +36,11 @@ type GetAvailableTokenRow struct {
 	DebtTokenName         string
 	DebtTokenSymbol       string
 	DebtTokenAddress      string
+	DebtTokenIcon         pgtype.Text
 	CollateralTokenName   string
 	CollateralTokenSymbol string
 	CollateralAddress     string
+	CollateralTokenIcon   pgtype.Text
 	MaturityRange         interface{}
 	RateRange             interface{}
 	LendingVault          int64
@@ -56,9 +60,11 @@ func (q *Queries) GetAvailableToken(ctx context.Context) ([]GetAvailableTokenRow
 			&i.DebtTokenName,
 			&i.DebtTokenSymbol,
 			&i.DebtTokenAddress,
+			&i.DebtTokenIcon,
 			&i.CollateralTokenName,
 			&i.CollateralTokenSymbol,
 			&i.CollateralAddress,
+			&i.CollateralTokenIcon,
 			&i.MaturityRange,
 			&i.RateRange,
 			&i.LendingVault,
