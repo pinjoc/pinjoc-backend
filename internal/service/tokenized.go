@@ -51,14 +51,14 @@ func (s *TokenizedService) GetBestPrice(ctx context.Context, payload model.Token
 	})
 }
 
-func (s *TokenizedService) UpdateAmount(ctx context.Context, payload model.UpdatePayload) error {
+func (s *TokenizedService) updateAmount(ctx context.Context, payload model.UpdatePayload) error {
 	return s.q.TokenAmount(ctx, sqlc.TokenAmountParams{
 		Amount: payload.AvailableToken,
 		ID:     payload.ID,
 	})
 }
 
-func (s *TokenizedService) UpdateVolume(ctx context.Context, payload model.UpdatePayload) error {
+func (s *TokenizedService) updateVolume(ctx context.Context, payload model.UpdatePayload) error {
 	return s.q.TokenVolume(ctx, sqlc.TokenVolumeParams{
 		Volume: payload.AvailableToken,
 		ID:     payload.ID,
@@ -93,7 +93,7 @@ func (s *TokenizedService) RandomUpdate(ctx context.Context) error {
 
 	amount := s.randomAmount()
 	log.Println("Token Amount update", id, amount)
-	return s.UpdateAmount(ctx, model.UpdatePayload{
+	return s.updateAmount(ctx, model.UpdatePayload{
 		ID:             id,
 		AvailableToken: amount,
 	})
@@ -107,8 +107,25 @@ func (s *TokenizedService) RandomVolume(ctx context.Context) error {
 
 	volume := s.randomVolume()
 	log.Println("Token volume update", id, volume)
-	return s.UpdateVolume(ctx, model.UpdatePayload{
+	return s.updateVolume(ctx, model.UpdatePayload{
 		ID:             id,
 		AvailableToken: volume,
+	})
+}
+
+func (s *TokenizedService) UpdateAmount(ctx context.Context, payload model.UpdateAmount) (int32, error) {
+	rateStr := fmt.Sprintf("%f", payload.Rate)
+	rate := pgtype.Numeric{}
+	if err := rate.Scan(rateStr); err != nil {
+		return 0, err
+	}
+	return s.q.UpdateAmount(ctx, sqlc.UpdateAmountParams{
+		Amount:    payload.Amount,
+		Address:   payload.QouteToken,
+		Address_2: payload.BaseToken,
+		Month:     MonthToInt[payload.Month],
+		Year:      payload.Year,
+		OrderType: payload.OrderType,
+		Rate:      rate,
 	})
 }

@@ -44,3 +44,19 @@ WHERE id = $2;
 -- name: GetRandomToken :one
 SELECT id FROM tokenized
 ORDER BY RANDOM();
+
+-- name: UpdateAmount :one
+-- name: UpdateAvailable :one
+UPDATE tokenized t
+SET amount = $1
+FROM token q, token b, maturities m
+WHERE t.quote_token_id = q.id
+AND t.base_token_id = b.id
+AND t.maturity_id = m.id
+AND q.address = $2
+AND b.address = $3
+AND m.month = $4
+AND m.year = $5
+AND t.order_type = $6
+AND t.rate = $7
+RETURNING t.id;

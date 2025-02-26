@@ -11,12 +11,14 @@ type Handler struct {
 		GetCLOB(ctx *fiber.Ctx) error
 		GetAvailableToken(ctx *fiber.Ctx) error
 		GetBestRate(ctx *fiber.Ctx) error
+		UpdateAvailabeToken(ctx *fiber.Ctx) error
 	}
 
 	Tokenized interface {
 		GetToken(ctx *fiber.Ctx) error
 		GetAllToken(ctx *fiber.Ctx) error
 		GetBestPrice(ctx *fiber.Ctx) error
+		UpdateAmount(ctx *fiber.Ctx) error
 	}
 }
 

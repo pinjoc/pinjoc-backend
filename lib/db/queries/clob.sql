@@ -43,3 +43,18 @@ WHERE id = $2;
 -- name: GetRandomOrder :one
 SELECT id FROM orders
 ORDER BY RANDOM();
+
+-- name: UpdateAvailable :one
+UPDATE orders o
+SET available_token = $1
+FROM token c, token d, maturities m
+WHERE o.collateral_token_id = c.id
+AND o.debt_token_id = d.id
+AND o.maturity_id = m.id
+AND c.address = $2
+AND d.address = $3
+AND m.month = $4
+AND m.year = $5
+AND o.order_type = $6
+AND o.rate = $7
+RETURNING o.id;

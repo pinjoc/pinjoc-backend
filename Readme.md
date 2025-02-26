@@ -85,6 +85,29 @@ dazzling-enjoyment-production.up.railway.app/api/v1/clob/best-rate
 }
 ```
 
+# update - Put
+```
+dazzling-enjoyment-production.up.railway.app/api/v1/clob/available-token
+```
+
+```
+{
+  "available_token": 70000,
+  "collateral_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "debt_token_address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+  "month": "MAY",
+  "year": 2025,
+  "rate": 4.0,
+  "order_type": "BORROW"
+}
+```
+
+```
+{
+  "message": "success"
+}
+```
+
 ### token
 
 dazzling-enjoyment-production.up.railway.app/api/v1/token/available-token
@@ -151,5 +174,28 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/best-price
 ```
 {
   "best_price": "1000.00"
+}
+```
+
+# update - Put
+```
+dazzling-enjoyment-production.up.railway.app/api/v1/token/available-token
+```
+
+```
+{
+  "amount": 5000,
+  "qoute_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
+  "base_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB42",
+  "month": "MAY",
+  "year": 2025,
+  "rate": 2.5,
+  "order_type": "SELL"
+} 
+```
+
+```
+{
+  "message": "success"
 }
 ```

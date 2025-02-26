@@ -29,6 +29,7 @@ type Service struct {
 		GetBestRate(ctx context.Context, payload model.OrderBookPayload) (float64, error)
 		GetAvailableToken(ctx context.Context) ([]sqlc.GetAvailableTokenRow, error)
 		RandomUpdate(ctx context.Context) error
+		UpdateAvailabe(ctx context.Context, payload model.UpdateAvailabe) (int32, error)
 	}
 
 	Tokenized interface {
@@ -37,6 +38,7 @@ type Service struct {
 		GetBestPrice(ctx context.Context, payload model.TokenizedPayload) (float64, error)
 		RandomUpdate(ctx context.Context) error
 		RandomVolume(ctx context.Context) error
+		UpdateAmount(ctx context.Context, payload model.UpdateAmount) (int32, error)
 	}
 }
 

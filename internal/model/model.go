@@ -41,3 +41,33 @@ func (p *TokenizedPayload) Validate() error {
 func (p *UpdatePayload) Validate() error {
 	return Validate.Struct(p)
 }
+
+type (
+	UpdateAvailabe struct {
+		AvailableToken    int32   `json:"available_token" validate:"required"`
+		CollateralAddress string  `json:"collateral_address" validate:"required"`
+		DebtTokenAddress  string  `json:"debt_token_address" validate:"required"`
+		Month             string  `json:"month" validate:"required"`
+		Year              int32   `json:"year" validate:"required"`
+		OrderType         string  `json:"order_type" validate:"required"`
+		Rate              float64 `json:"rate" validate:"required"`
+	}
+
+	UpdateAmount struct {
+		Amount     int32   `json:"amount" validate:"required"`
+		QouteToken string  `json:"qoute_token" validate:"required"`
+		BaseToken  string  `json:"base_token" validate:"required"`
+		Month      string  `json:"month" validate:"required"`
+		Year       int32   `json:"year" validate:"required"`
+		OrderType  string  `json:"order_type" validate:"required"`
+		Rate       float64 `json:"rate" validate:"required"`
+	}
+)
+
+func (p *UpdateAvailabe) Validate() error {
+	return Validate.Struct(p)
+}
+
+func (p *UpdateAmount) Validate() error {
+	return Validate.Struct(p)
+}

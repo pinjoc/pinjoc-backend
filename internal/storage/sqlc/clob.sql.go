@@ -167,6 +167,47 @@ func (q *Queries) GetRandomOrder(ctx context.Context) (int32, error) {
 	return id, err
 }
 
+const updateAvailable = `-- name: UpdateAvailable :one
+UPDATE orders o
+SET available_token = $1
+FROM token c, token d, maturities m
+WHERE o.collateral_token_id = c.id
+AND o.debt_token_id = d.id
+AND o.maturity_id = m.id
+AND c.address = $2
+AND d.address = $3
+AND m.month = $4
+AND m.year = $5
+AND o.order_type = $6
+AND o.rate = $7
+RETURNING o.id
+`
+
+type UpdateAvailableParams struct {
+	AvailableToken int32
+	Address        string
+	Address_2      string
+	Month          int32
+	Year           int32
+	OrderType      string
+	Rate           pgtype.Numeric
+}
+
+func (q *Queries) UpdateAvailable(ctx context.Context, arg UpdateAvailableParams) (int32, error) {
+	row := q.db.QueryRow(ctx, updateAvailable,
+		arg.AvailableToken,
+		arg.Address,
+		arg.Address_2,
+		arg.Month,
+		arg.Year,
+		arg.OrderType,
+		arg.Rate,
+	)
+	var id int32
+	err := row.Scan(&id)
+	return id, err
+}
+
 const updateTokenAvailable = `-- name: UpdateTokenAvailable :exec
 UPDATE orders
 SET available_token = available_token + $1

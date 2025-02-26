@@ -46,11 +46,14 @@ func (a *Application) RegisterRoute() {
 
 	clobRouter.Get("/clob", a.appCfg.h.CLOB.GetCLOB)
 	clobRouter.Get("/available-token", a.appCfg.h.CLOB.GetAvailableToken)
+	// update
+	clobRouter.Put("/available-token", a.appCfg.h.CLOB.UpdateAvailabeToken)
 	clobRouter.Get("/best-rate", a.appCfg.h.CLOB.GetBestRate)
 
 	tokenRouter := apiRouter.Group("/token")
 	tokenRouter.Get("/token", a.appCfg.h.Tokenized.GetToken)
 	tokenRouter.Get("/available-token", a.appCfg.h.Tokenized.GetAllToken)
+	tokenRouter.Put("/available-token", a.appCfg.h.Tokenized.UpdateAmount)
 	tokenRouter.Get("/best-price", a.appCfg.h.Tokenized.GetBestPrice)
 }
 

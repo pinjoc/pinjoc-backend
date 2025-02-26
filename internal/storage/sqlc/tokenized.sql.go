@@ -193,3 +193,44 @@ func (q *Queries) TokenVolume(ctx context.Context, arg TokenVolumeParams) error 
 	_, err := q.db.Exec(ctx, tokenVolume, arg.Volume, arg.ID)
 	return err
 }
+
+const updateAmount = `-- name: UpdateAmount :one
+UPDATE tokenized t
+SET amount = $1
+FROM token q, token b, maturities m
+WHERE t.quote_token_id = q.id
+AND t.base_token_id = b.id
+AND t.maturity_id = m.id
+AND q.address = $2
+AND b.address = $3
+AND m.month = $4
+AND m.year = $5
+AND t.order_type = $6
+AND t.rate = $7
+RETURNING t.id
+`
+
+type UpdateAmountParams struct {
+	Amount    int32
+	Address   string
+	Address_2 string
+	Month     int32
+	Year      int32
+	OrderType string
+	Rate      pgtype.Numeric
+}
+
+func (q *Queries) UpdateAmount(ctx context.Context, arg UpdateAmountParams) (int32, error) {
+	row := q.db.QueryRow(ctx, updateAmount,
+		arg.Amount,
+		arg.Address,
+		arg.Address_2,
+		arg.Month,
+		arg.Year,
+		arg.OrderType,
+		arg.Rate,
+	)
+	var id int32
+	err := row.Scan(&id)
+	return id, err
+}
