@@ -1,13 +1,33 @@
-### endpoint
+# CLOB Money Legos - Dynamic Lending Protocol
+We are trying to build CLOB money legos. Specifically dynamic lending protocol based on supply and demand. This yield rate will be the one that will be traded. Can you help me to change our topics into CLOB money legos
 
-### clob
-dazzling-enjoyment-production.up.railway.app/api/v1/clob/available-token
+## Overview
+A backend service built with Go and PostgreSQL that provides dummy data simulation through APIs to demonstrate a Central Limit Order Book (CLOB) for lending/borrowing operations. This service is designed to be consumed by frontend applications to simulate supply-demand based lending protocols.
 
-```
-no-parameter
+## Purpose
+- Provide dummy data simulation for CLOB testing
+- Demonstrate dynamic yield rate determination based on supply and demand
+- Serve as a mock backend for frontend development and testing
+- Simulate order book management for lending/borrowing operations
+
+## Tech Stack
+- **Backend**: Go 1.24
+- **Database**: PostgreSQL 17
+- **ORM**: SQLC
+
+## API Documentation
+
+### CLOB Endpoints (`/api/v1/clob`)
+
+#### 1. Get Available Tokens
+Lists available token pairs with their lending/borrowing states.
+
+```http
+GET /available-token
 ```
 
-```
+**Response:**
+```json
 [
   {
     "DebtTokenName": "Aave Token",
@@ -32,22 +52,29 @@ no-parameter
     "RateRange": "4.00% ~ 7.50%",
     "LendingVault": 0,
     "BorrowVault": 495000
-  },
+  }
 ]
 ```
 
-dazzling-enjoyment-production.up.railway.app/api/v1/clob/clob
+#### 2. Get CLOB State
+Returns current order book state for specific token pair.
 
+```http
+POST /clob
 ```
+
+**Request:**
+```json
 {
   "collateral_address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   "debt_token_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  "month":8,
-  "year":2025
-	
+  "month": 8,
+  "year": 2025
 }
 ```
-```
+
+**Response:**
+```json
 [
   {
     "Rate": 4.50,
@@ -67,30 +94,37 @@ dazzling-enjoyment-production.up.railway.app/api/v1/clob/clob
 ]
 ```
 
-dazzling-enjoyment-production.up.railway.app/api/v1/clob/best-rate
+#### 3. Get Best Rate
+Retrieves best available rate for token pair.
 
+```http
+POST /best-rate
 ```
+
+**Request:**
+```json
 {
   "collateral_address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   "debt_token_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  "month":8,
-  "year":2025
-	
+  "month": 8,
+  "year": 2025
 }
 ```
 
-```
+**Response:**
+```json
 {
   "best_rate": "5.00"
 }
 ```
 
-# update - Put
-```
-dazzling-enjoyment-production.up.railway.app/api/v1/clob/available-token
+### Update Available Token - PUT
+```http
+PUT /available-token
 ```
 
-```
+**Request:**
+```json
 {
   "available_token": 70000,
   "collateral_address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
@@ -102,21 +136,24 @@ dazzling-enjoyment-production.up.railway.app/api/v1/clob/available-token
 }
 ```
 
-```
+**Response:**
+```json
 {
   "message": "success"
 }
 ```
 
-### token
+### Token Endpoints (`/api/v1/token`)
 
-dazzling-enjoyment-production.up.railway.app/api/v1/token/available-token
+#### 1. Get Available Tokens
+Lists available token pairs with their trading states.
 
-```
-no-parameter
+```http
+GET /available-token
 ```
 
-```
+**Response:**
+```json
 [
   {
     "QuoteTokenName": "Test Token dua",
@@ -128,15 +165,19 @@ no-parameter
     "PriceRange": "5000 ~ 7000",
     "MaturityRange": "AUG 2025 ~ NOV 2025",
     "Volume24h": 200000
-  },
+  }
 ]
 ```
 
-```
-dazzling-enjoyment-production.up.railway.app/api/v1/token/token
+#### 2. Get Token State
+Returns current order book state for specific token pair.
+
+```http
+POST /token
 ```
 
-```
+**Request:**
+```json
 {
   "qoute_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
   "base_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB42",
@@ -146,8 +187,8 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/token
 }
 ```
 
-
-```
+**Response:**
+```json
 [
   {
     "Price": 1000,
@@ -157,11 +198,15 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/token
 ]
 ```
 
-```
-dazzling-enjoyment-production.up.railway.app/api/v1/token/best-price
+#### 3. Get Best Price
+Retrieves best available price for token pair.
+
+```http
+POST /best-price
 ```
 
-```
+**Request:**
+```json
 {
   "qoute_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
   "base_token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB42",
@@ -171,18 +216,20 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/best-price
 }
 ```
 
-```
+**Response:**
+```json
 {
   "best_price": "1000.00"
 }
 ```
 
-# update - Put
-```
-dazzling-enjoyment-production.up.railway.app/api/v1/token/available-token
+### Update Available Token - PUT
+```http
+PUT /available-token
 ```
 
-```
+**Request:**
+```json
 {
   "amount": 5000,
   "qoute_token": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C591",
@@ -194,8 +241,51 @@ dazzling-enjoyment-production.up.railway.app/api/v1/token/available-token
 } 
 ```
 
-```
+**Response:**
+```json
 {
   "message": "success"
 }
+```
+
+## Quick Start
+
+1. Clone repository
+```bash
+git clone https://github.com/pinjoc/pinjoc-backend.git
+cd pinjoc-backend
+```
+
+2. Create `.env` file
+```env
+DB_ADDR=postgres://username:password@localhost:5432/dbname?sslmode=disable
+```
+
+3. Run migrations
+```bash
+make migrate-up
+```
+
+4. Start server
+```bash
+go run cmd/main.go
+```
+
+## Development
+
+### Database Migrations
+```bash
+# Create new migration
+make migrations name=migration_name
+
+# Apply migrations
+make migrate-up
+
+# Rollback migrations
+make migrate-down
+```
+
+### Update Dependencies
+```bash
+make go-tidy
 ```
