@@ -44,17 +44,18 @@ func (a *Application) RegisterRoute() {
 		return ctx.SendStatus(fiber.StatusOK)
 	})
 
-	clobRouter.Get("/clob", a.appCfg.h.CLOB.GetCLOB)
+	clobRouter.Post("/clob", a.appCfg.h.CLOB.GetCLOB)
+	clobRouter.Post("/best-rate", a.appCfg.h.CLOB.GetBestRate)
 	clobRouter.Get("/available-token", a.appCfg.h.CLOB.GetAvailableToken)
 	// update
 	clobRouter.Put("/available-token", a.appCfg.h.CLOB.UpdateAvailabeToken)
-	clobRouter.Get("/best-rate", a.appCfg.h.CLOB.GetBestRate)
 
 	tokenRouter := apiRouter.Group("/token")
-	tokenRouter.Get("/token", a.appCfg.h.Tokenized.GetToken)
+	tokenRouter.Post("/token", a.appCfg.h.Tokenized.GetToken)
+	tokenRouter.Post("/best-price", a.appCfg.h.Tokenized.GetBestPrice)
 	tokenRouter.Get("/available-token", a.appCfg.h.Tokenized.GetAllToken)
 	tokenRouter.Put("/available-token", a.appCfg.h.Tokenized.UpdateAmount)
-	tokenRouter.Get("/best-price", a.appCfg.h.Tokenized.GetBestPrice)
+
 }
 
 func (a *Application) Run() error {
