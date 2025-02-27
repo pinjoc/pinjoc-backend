@@ -12,6 +12,7 @@ type Handler struct {
 		GetAvailableToken(ctx *fiber.Ctx) error
 		GetBestRate(ctx *fiber.Ctx) error
 		UpdateAvailabeToken(ctx *fiber.Ctx) error
+		GetMaturitiesAndBestRate(ctx *fiber.Ctx) error
 	}
 
 	Tokenized interface {

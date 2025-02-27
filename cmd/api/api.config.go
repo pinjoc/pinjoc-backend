@@ -49,6 +49,7 @@ func (a *Application) RegisterRoute() {
 	clobRouter.Get("/available-token", a.appCfg.h.CLOB.GetAvailableToken)
 	// update
 	clobRouter.Put("/available-token", a.appCfg.h.CLOB.UpdateAvailabeToken)
+	clobRouter.Post("/maturity-best-rate", a.appCfg.h.CLOB.GetMaturitiesAndBestRate)
 
 	tokenRouter := apiRouter.Group("/token")
 	tokenRouter.Post("/token", a.appCfg.h.Tokenized.GetToken)

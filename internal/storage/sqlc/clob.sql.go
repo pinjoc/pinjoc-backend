@@ -161,6 +161,50 @@ func (q *Queries) GetCLOB(ctx context.Context, arg GetCLOBParams) ([]GetCLOBRow,
 	return items, nil
 }
 
+const getMaturitiesAndBestRate = `-- name: GetMaturitiesAndBestRate :many
+SELECT 
+    CONCAT(
+        (SELECT month_name FROM maturities WHERE id = m.id), ' ',
+        (SELECT year FROM maturities WHERE id = m.id)
+    ) AS maturity,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY rate) AS best_rate
+FROM orders o
+JOIN maturities m ON o.maturity_id = m.id
+JOIN token c ON o.collateral_token_id = c.id
+JOIN token d ON o.debt_token_id = d.id
+WHERE c.address = $1 AND d.address = $2
+`
+
+type GetMaturitiesAndBestRateParams struct {
+	Address   string
+	Address_2 string
+}
+
+type GetMaturitiesAndBestRateRow struct {
+	Maturity interface{}
+	BestRate float64
+}
+
+func (q *Queries) GetMaturitiesAndBestRate(ctx context.Context, arg GetMaturitiesAndBestRateParams) ([]GetMaturitiesAndBestRateRow, error) {
+	rows, err := q.db.Query(ctx, getMaturitiesAndBestRate, arg.Address, arg.Address_2)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetMaturitiesAndBestRateRow
+	for rows.Next() {
+		var i GetMaturitiesAndBestRateRow
+		if err := rows.Scan(&i.Maturity, &i.BestRate); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getRandomOrder = `-- name: GetRandomOrder :one
 SELECT id FROM orders
 ORDER BY RANDOM()

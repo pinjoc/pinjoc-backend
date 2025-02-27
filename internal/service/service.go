@@ -30,6 +30,7 @@ type Service struct {
 		GetAvailableToken(ctx context.Context) ([]sqlc.GetAvailableTokenRow, error)
 		RandomUpdate(ctx context.Context) error
 		UpdateAvailabe(ctx context.Context, payload model.UpdateAvailabe) (int32, error)
+		GetMaturityAndBestRate(ctx context.Context, payload model.MaturityAndBestRate) ([]sqlc.GetMaturitiesAndBestRateRow, error)
 	}
 
 	Tokenized interface {

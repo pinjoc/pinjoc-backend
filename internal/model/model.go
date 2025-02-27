@@ -28,6 +28,11 @@ type (
 		ID             int32 `json:"id" validate:"required"`
 		AvailableToken int32 `json:"available_token" validate:"required"`
 	}
+
+	MaturityAndBestRate struct {
+		CollateralAddress string `json:"collateral_address" validate:"required"`
+		DebtTokenAddress  string `json:"debt_token_address" validate:"required"`
+	}
 )
 
 func (p *OrderBookPayload) Validate() error {
@@ -39,6 +44,10 @@ func (p *TokenizedPayload) Validate() error {
 }
 
 func (p *UpdatePayload) Validate() error {
+	return Validate.Struct(p)
+}
+
+func (p *MaturityAndBestRate) Validate() error {
 	return Validate.Struct(p)
 }
 

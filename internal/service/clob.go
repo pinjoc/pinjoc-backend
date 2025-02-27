@@ -86,3 +86,10 @@ func (s *ClobService) UpdateAvailabe(ctx context.Context, payload model.UpdateAv
 		Rate:           rate,
 	})
 }
+
+func (s *ClobService) GetMaturityAndBestRate(ctx context.Context, payload model.MaturityAndBestRate) ([]sqlc.GetMaturitiesAndBestRateRow, error) {
+	return s.q.GetMaturitiesAndBestRate(ctx, sqlc.GetMaturitiesAndBestRateParams{
+		Address:   payload.CollateralAddress,
+		Address_2: payload.DebtTokenAddress,
+	})
+}

@@ -121,3 +121,35 @@ func (h *ClobHandler) UpdateAvailabeToken(ctx *fiber.Ctx) error {
 		"message": "success",
 	})
 }
+
+func (h *ClobHandler) GetMaturitiesAndBestRate(ctx *fiber.Ctx) error {
+	payload := new(model.MaturityAndBestRate)
+
+	if err := ctx.BodyParser(payload); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	if err := payload.Validate(); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	res, err := h.s.CLOB.GetMaturityAndBestRate(ctx.Context(), *payload)
+	//log.Println(res)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	if res == nil {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "No available rate",
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(res)
+}

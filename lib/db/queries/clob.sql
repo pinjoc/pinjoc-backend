@@ -64,3 +64,17 @@ AND m.year = $5
 AND o.order_type = $6
 AND o.rate = $7
 RETURNING o.id;
+
+
+-- name: GetMaturitiesAndBestRate :many
+SELECT 
+    CONCAT(
+        (SELECT month_name FROM maturities WHERE id = m.id), ' ',
+        (SELECT year FROM maturities WHERE id = m.id)
+    ) AS maturity,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY rate) AS best_rate
+FROM orders o
+JOIN maturities m ON o.maturity_id = m.id
+JOIN token c ON o.collateral_token_id = c.id
+JOIN token d ON o.debt_token_id = d.id
+WHERE c.address = $1 AND d.address = $2;
