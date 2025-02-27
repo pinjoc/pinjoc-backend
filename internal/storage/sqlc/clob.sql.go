@@ -163,16 +163,16 @@ func (q *Queries) GetCLOB(ctx context.Context, arg GetCLOBParams) ([]GetCLOBRow,
 
 const getMaturitiesAndBestRate = `-- name: GetMaturitiesAndBestRate :many
 SELECT 
-    CONCAT(
-        (SELECT month_name FROM maturities WHERE id = m.id), ' ',
-        (SELECT year FROM maturities WHERE id = m.id)
-    ) AS maturity,
-    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY rate) AS best_rate
+    CONCAT(m.month_name, ' ', m.year) AS maturity,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY o.rate) AS best_rate
 FROM orders o
 JOIN maturities m ON o.maturity_id = m.id
 JOIN token c ON o.collateral_token_id = c.id
 JOIN token d ON o.debt_token_id = d.id
-WHERE c.address = $1 AND d.address = $2
+WHERE c.address = $1 
+AND d.address = $2
+GROUP BY m.id, m.month_name, m.year
+ORDER BY m.year ASC, m.month ASC
 `
 
 type GetMaturitiesAndBestRateParams struct {
