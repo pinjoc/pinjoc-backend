@@ -76,5 +76,5 @@ JOIN token c ON o.collateral_token_id = c.id
 JOIN token d ON o.debt_token_id = d.id
 WHERE c.address = $1 
 AND d.address = $2
-GROUP BY m.month_name, m.year
-ORDER BY m.year, m.month_name;
+GROUP BY m.id, m.month_name, m.year
+ORDER BY m.year ASC, m.month ASC;
