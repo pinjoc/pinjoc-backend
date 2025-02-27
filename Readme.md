@@ -136,16 +136,16 @@ PUT /available-token
 }
 ```
 
-### GET Maturity and Best Rate
-```http
-POST /maturity-best-rate
-```
-
 **Response:**
 ```json
 {
   "message": "success"
 }
+```
+
+### GET Maturity and Best Rate
+```http
+POST /maturity-best-rate
 ```
 
 **Request:**
