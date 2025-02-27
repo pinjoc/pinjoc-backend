@@ -136,6 +136,11 @@ PUT /available-token
 }
 ```
 
+### GET Maturity and Best Rate
+```http
+POST /maturity-best-rate
+```
+
 **Response:**
 ```json
 {
@@ -143,6 +148,35 @@ PUT /available-token
 }
 ```
 
+**Request:**
+```json
+{
+  "collateral_address": "0xf14442CCE4511D0B5DC34425bceA50Ca67626c3a",
+  "debt_token_address": "0x0F848482cC12EA259DA229e7c5C4949EdA7E6475"
+}
+```
+
+**Response:**
+```json
+[
+    {
+        "Maturity": "MAY 2025",
+        "BestRate": 6.5
+    },
+    {
+        "Maturity": "AUG 2025",
+        "BestRate": 11
+    },
+    {
+        "Maturity": "NOV 2025",
+        "BestRate": 19.5
+    },
+    {
+        "Maturity": "FEB 2026",
+        "BestRate": 28.1
+    }
+]
+```
 ### Token Endpoints (`/api/v1/token`)
 
 #### 1. Get Available Tokens
