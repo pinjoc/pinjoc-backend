@@ -21,7 +21,13 @@ SELECT
     c.symbol AS collateral_token_symbol, 
     c.address AS collateral_address,
     c.icon AS collateral_token_icon,
-    CONCAT(MIN(m.month_name), ' ', MIN(m.year), ' ~ ', MAX(m.month_name), ' ', MAX(m.year)) AS maturity_range,
+    CONCAT(
+        (SELECT month_name FROM maturities WHERE id = MIN(m.id)), ' ', 
+        (SELECT year FROM maturities WHERE id = MIN(m.id)), 
+        ' ~ ', 
+        (SELECT month_name FROM maturities WHERE id = MAX(m.id)), ' ', 
+        (SELECT year FROM maturities WHERE id = MAX(m.id))
+    ) AS maturity_range,
     CONCAT(MIN(o.rate), '% ~ ', MAX(o.rate), '%') AS rate_range,
     SUM(CASE WHEN o.order_type = 'LEND' THEN o.available_token ELSE 0 END) AS lending_vault,
     SUM(CASE WHEN o.order_type = 'BORROW' THEN o.available_token ELSE 0 END) AS borrow_vault
