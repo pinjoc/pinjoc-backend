@@ -37,7 +37,7 @@ type Tokenized struct {
 	ID           int32
 	QuoteTokenID int32
 	BaseTokenID  int32
-	Price        int32
+	Price        pgtype.Numeric
 	MaturityID   int32
 	Rate         pgtype.Numeric
 	Amount       int32

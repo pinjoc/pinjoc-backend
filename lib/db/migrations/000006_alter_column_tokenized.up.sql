@@ -1,0 +1,4 @@
+TRUNCATE TABLE tokenized CASCADE;
+
+ALTER TABLE tokenized
+ALTER COLUMN price TYPE numeric(10,2);

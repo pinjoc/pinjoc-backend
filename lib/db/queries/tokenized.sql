@@ -11,11 +11,19 @@ SELECT
     q.name AS quote_token_name, 
     q.symbol AS quote_token_symbol, 
     q.address AS quote_token_address,
+    q.icon AS quote_token_icon,
     b.name AS base_token_name, 
     b.symbol AS base_token_symbol, 
     b.address AS base_token_address,
+    b.icon AS base_token_icon,
     CONCAT(MIN(t.price), ' ~ ', MAX(t.price)) AS price_range,
-    CONCAT(MIN(m.month_name), ' ', MIN(m.year), ' ~ ', MAX(m.month_name), ' ', MAX(m.year)) AS maturity_range,
+    CONCAT(
+        (SELECT month_name FROM maturities WHERE id = MIN(m.id)), ' ', 
+        (SELECT year FROM maturities WHERE id = MIN(m.id)), 
+        ' ~ ', 
+        (SELECT month_name FROM maturities WHERE id = MAX(m.id)), ' ', 
+        (SELECT year FROM maturities WHERE id = MAX(m.id))
+    ) AS maturity_range,
     SUM(t.volume) AS volume24h
 FROM tokenized t
 JOIN token q ON t.quote_token_id = q.id
