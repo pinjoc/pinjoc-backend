@@ -24,6 +24,7 @@ SELECT
         (SELECT month_name FROM maturities WHERE id = MAX(m.id)), ' ', 
         (SELECT year FROM maturities WHERE id = MAX(m.id))
     ) AS maturity_range,
+    CONCAT(MIN(t.rate), '% ~ ', MAX(t.rate), '%') AS rate_range,
     SUM(t.volume) AS volume24h
 FROM tokenized t
 JOIN token q ON t.quote_token_id = q.id
